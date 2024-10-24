@@ -1,6 +1,3 @@
 @import url(./normalise.css);
 @import url(./reset.css);
-
-body {
-  height: 100%;
-}
+@import url(utils-global.css);

@@ -16,12 +16,12 @@ export default class ImageGalleryItem extends Component {
       <>
         {images.map(({ id, webformatURL, largeImageURL }, idx, arr) => (
           <li
-            key={id}
             className={s.item}
+            key={id}
             ref={arr.length - 12 === idx ? itemRef : null}
             onClick={() => this.handleClick(largeImageURL)}
           >
-            <img key={id} src={webformatURL} alt="" />
+            <img className={s.itemImgage} key={id} src={webformatURL} alt="" />
           </li>
         ))}
       </>

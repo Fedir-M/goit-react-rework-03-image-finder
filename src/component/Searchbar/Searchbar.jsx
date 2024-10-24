@@ -24,17 +24,19 @@ export default class Searchbar extends Component {
   render() {
     const { buttonType } = this.props;
     return (
-      <header className={s.wrapper}>
-        <form onSubmit={this.handleSubmit}>
+      <header className={s.searchbarHeader}>
+        <form className={s.form} onSubmit={this.handleSubmit}>
           <input
+            className={s.inputSearch}
+            placeholder="tap your mouse here..."
             value={this.state.inputQuery}
             onChange={(e) => this.setState({ inputQuery: e.target.value })}
           />
           <Button
+            className={s.buttonSearch}
             onClick={this.handleSubmit}
             label="Search"
             type={buttonType}
-            className="buttonSearch"
           />
         </form>
       </header>

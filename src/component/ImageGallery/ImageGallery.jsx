@@ -93,8 +93,8 @@ export default class ImageGallery extends Component {
             height="80"
             width="150"
             ariaLabel="progress-bar-loading"
-            barColor="#7fcddb"
-            borderColor="#227f8e"
+            barColor="#dae962"
+            borderColor="#125a1f"
             className={s.loader}
             wrapperClass={s.customProgressBar}
           />
@@ -104,7 +104,7 @@ export default class ImageGallery extends Component {
           <Modal largeImage={largeImage} onCloseModal={this.closeModal} />
         )}
 
-        <ul className={s.wrapper}>
+        <ul className={s.wrapperGallery}>
           <ImageGalleryItem
             itemRef={this.itemRef}
             images={this.state.images}
@@ -116,9 +116,9 @@ export default class ImageGallery extends Component {
         {!isLoading && images.length > 0 && (
           <Button
             onClick={this.onLoadMore} // на пропс онКлик (кот. мы определили внутри самого компонента) передается метод смены страницы
-            label="Load more"
+            label="Load more..."
             type="button"
-            className="loadMoreButton"
+            className={s.loadMoreButton}
           />
         )}
       </div>
