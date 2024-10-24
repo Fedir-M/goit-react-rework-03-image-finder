@@ -26,6 +26,9 @@ export default class Modal extends Component {
       this.props.onCloseModal();
     }
   };
+  //   Когда пользователь кликает на оверлей, срабатывает обработчик onClick, который вызывает метод closeModal.
+  // В методе closeModal проверяется, равны ли e.currentTarget (элемент, на который установлен обработчик) и e.target (элемент, на который был выполнен клик).
+  // Если они равны, это означает, что клик произошел непосредственно на оверлее, и вызывается функция onCloseModal, закрывающая модальное окно.
 
   render() {
     const { largeImage, onCloseModal } = this.props;
