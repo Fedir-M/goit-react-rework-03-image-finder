@@ -7,6 +7,7 @@ import { ProgressBar } from "react-loader-spinner";
 import { fetchImages } from "../../services/imagesApi";
 
 import s from "./ImageGallery.module.css";
+import NotFound from "../Not found/NotFound";
 
 export default class ImageGallery extends Component {
   state = {
@@ -15,6 +16,7 @@ export default class ImageGallery extends Component {
     largeImage: "",
     isOpenModal: false,
     isLoading: false,
+    error: "",
   };
 
   itemRef = createRef(null);
@@ -50,14 +52,20 @@ export default class ImageGallery extends Component {
   getImages(query) {
     const { page } = this.state;
 
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: true, error: "", query });
 
     fetchImages(query, page)
       .then((images) => {
-        this.setState((prev) => ({ images: [...prev.images, ...images] }));
+        if (images.length === 0) {
+          this.setState({ error: "No images found" });
+          // console.log("No images found");
+        } else {
+          this.setState((prev) => ({ images: [...prev.images, ...images] }));
+        }
       })
       .catch((error) => {
-        console.error("Error fetching images:", error);
+        this.setState({ error: error.message });
+        //! throw new Error(error); // запутался...в чем разницы ?)
       })
       .finally(() => {
         this.setState({ isLoading: false });
@@ -84,7 +92,8 @@ export default class ImageGallery extends Component {
 
   render() {
     // console.log(this.props.imageQuery); //напоминалка как правильно в классе вызывать консоль
-    const { isLoading, images, isOpenModal, largeImage } = this.state;
+    const { isLoading, images, isOpenModal, largeImage, error } = this.state;
+    const { imageQuery } = this.props;
     return (
       <div className={s.container}>
         {isLoading && (
@@ -99,20 +108,21 @@ export default class ImageGallery extends Component {
             wrapperClass={s.customProgressBar}
           />
         )}
-
         {isOpenModal && (
           <Modal largeImage={largeImage} onCloseModal={this.closeModal} />
         )}
-
-        <ul className={s.wrapperGallery}>
-          <ImageGalleryItem
-            itemRef={this.itemRef}
-            images={this.state.images}
-            openModal={this.openModal}
-            getModalImage={this.getModalImage}
-          />
-        </ul>
-
+        {error ? (
+          <NotFound error={error} query={imageQuery} />
+        ) : (
+          <ul className={s.wrapperGallery}>
+            <ImageGalleryItem
+              itemRef={this.itemRef}
+              images={this.state.images}
+              openModal={this.openModal}
+              getModalImage={this.getModalImage}
+            />
+          </ul>
+        )}
         {!isLoading && images.length > 0 && (
           <Button
             onClick={this.onLoadMore} // на пропс онКлик (кот. мы определили внутри самого компонента) передается метод смены страницы

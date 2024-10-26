@@ -43,7 +43,7 @@ export default class Modal extends Component {
             onClick={onCloseModal}
             icon="iconcross"
           />
-          <img src={largeImage} alt="big size image" className={s.image} />
+          <img className={s.image} src={largeImage} alt="big size image" />
         </div>
       </div>,
       modalRoot
